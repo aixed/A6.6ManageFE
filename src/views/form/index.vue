@@ -7,7 +7,7 @@
       <el-form-item label="活动地址">
         <el-select v-model="form.region" placeholder="请选择你的活动区域">
           <el-option label="上海" value="shanghai" />
-          <el-option label="西藏" value="xizang" />
+          <el-option label="北京" value="beijing" />
         </el-select>
       </el-form-item>
       <el-form-item label="活动时间">

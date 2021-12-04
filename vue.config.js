@@ -42,18 +42,6 @@ module.exports = {
     },
 
 
-    // 跨域问题
-    // proxy: {
-    //   [process.env.VUE_APP_BASE_API]: {
-    //     target: `http://rst.aixed.com:7003/api`,
-    //     changeOrigin: true,
-    //     ws: true,
-    //     secure: false,
-    //     pathRewrite: {
-    //       ['^' + process.env.VUE_APP_BASE_API]: ''
-    //     }
-    //   }
-    // }
     before: require('./mock/mock-server.js')
   },
   configureWebpack: {

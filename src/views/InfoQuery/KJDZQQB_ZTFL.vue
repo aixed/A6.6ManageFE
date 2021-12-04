@@ -128,14 +128,7 @@ export default {
   data() {
     return {
       list: [
-        // {
-        //   "ND":"2020",
-        //   "DWDM":"549900001",
-        //   "DWMC":"西藏自治区社保局（本级）",
-        //   "ZTDM":"111",
-        //   "ZTMC":"企业养老保险",
-        //   "PZZS":"10"
-        // }
+
         ],
 
       listLoading: false,
@@ -179,7 +172,7 @@ export default {
       // console.log(this.zt);
 
       // 开始请求数据
-      // let api_Url = "http://rst.aixed.com:7003/api"
+
       let api_Url = "http://10.11.0.37:5209/api"
       const vm = this;
 

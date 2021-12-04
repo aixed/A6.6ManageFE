@@ -215,7 +215,7 @@ export default {
       console.log('当前选择页：',this.list.curPageNum);
       console.log('当前分页依据数：',this.list.pageSize);
       // this.listLoading = true;
-      // let api_Url = "http://rst.aixed.com:7003/api"
+
       let api_Url = "http://10.11.0.37:5209/api"
 
       const vm = this;
@@ -231,7 +231,7 @@ export default {
 
         }).then(function (response){
 		  vm.listLoading = false
-			
+
 		  console.log('返回数据：', response.data)
 		  if (response.data == '无数据'){
             console.log('无数据')
@@ -242,15 +242,15 @@ export default {
             console.log('取回数据 total：',response.data.config.total);
             console.log('取回数据 pageSize：',response.data.config.pageSize);
             console.log('取回数据 curPageNum：',response.data.config.curPageNum);
-		  
+
 			vm.list.total = response.data.config.total;
             vm.list.pageSize = response.data.config.pageSize;
             vm.list.curPageNum = response.data.config.curPageNum;
 
             vm.list.data = response.data.data;
 		  }
-			
-			
+
+
 
         }).catch(function(error){
           vm.listLoading = false

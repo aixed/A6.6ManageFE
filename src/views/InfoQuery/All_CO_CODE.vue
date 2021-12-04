@@ -94,7 +94,7 @@ export default {
 
 
       // 开始请求数据
-      // let api_Url = "http://rst.aixed.com:7003/api"
+
       let api_Url = "http://10.11.0.37:5209/api"
       const vm = this;
       vm.listLoading = true

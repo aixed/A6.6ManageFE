@@ -160,15 +160,6 @@ export default {
       zt: '',
       uid: '',
 
-      // "ND":"2019",
-      // "CO_CODE":"549900001",
-      // "CO_NAME":"西藏自治区社保局（本级）",
-      // "ACCOUNT_CODE":"111",
-      // "ACCOUNT_NAME":"企业养老保险",
-      // "USER_NAME":"成海淘",
-      // "USER_CODE":"qbjcht",
-      // "ROLE_NAME":"社保领导查询",
-      // "ROLE_ZW":"出纳"
       list: [],
 
       listLoading: false
@@ -201,7 +192,7 @@ export default {
 
 
       // 开始请求数据
-      // let api_Url = "http://rst.aixed.com:7003/api"
+
       let api_Url = "http://10.11.0.37:5209/api"
       const vm = this;
       vm.listLoading = true
@@ -234,15 +225,6 @@ export default {
 
     fetchData() {
 
-      // const vm = this;
-      //   this.axios({
-      //     method: 'GET',
-      //     url: 'http://rst.aixed.com:7003/api/user/loginlog',
-      //   }).then(function (res){
-      //     vm.list = res.data;
-      //     console.log(res.data);
-      //
-      //   })
 
     }
   }
