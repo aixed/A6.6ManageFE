@@ -1,2 +1,2 @@
-const api_Url = "http://192.168.0.6:5209/api"
+const api_Url = "http://10.11.0.37:5209/api"
 export default api_Url

@@ -16,25 +16,8 @@
       style="width: 200px;"
       placeholder="请输入单位代码"
 
-
-
     />
 
-<!--    <b style="margin-left: 10px;">账套代码：</b>-->
-<!--    <el-input-->
-<!--      @mousewheel.native.prevent-->
-<!--      type="number"-->
-<!--      class="dis_arrow"-->
-<!--      v-model="zt"-->
-<!--      style="width: 200px;"-->
-<!--      placeholder="输入账套代码"-->
-<!--      onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode || event.which))) || event.which === 8"-->
-<!--      min="0"-->
-<!--      max="901"-->
-<!--      oninput="if (value > 901) value = 901"-->
-<!--      onblur="if(value.length!=3) this.focus();"-->
-<!--      onkeyup="if(value.length=3) this.blur();"-->
-<!--    />-->
 
     <b style="margin-left: 50px;">账 套：</b>
       <el-select @change='change_account_id' id="select_account_id" v-model="zt" placeholder="可选 选择账套" >
@@ -66,16 +49,19 @@
       element-loading-text="请稍等..."
       border
       fit
-      highlight-current-row
-      :row-style="{height: '0'}"
-      :cell-style="{padding: '0'}"
       stripe
-      :height="tableMaxHeight"
-      :header-cell-style="{color: '#000000', fontSize: '14px'}"
-      style="font-size: 14px"
+      highlight-current-row
+      :row-style="selectedstyle"
+      :cell-style="{padding: '5px 0'}"
+
+      :height=tableWidth
+      :header-cell-style="{color: '#000000', fontSize: '14px', 'text-align':'center'}"
+      style="font-size: 15px; color: #000000; "
+
+      @row-click="RowClick"
+      :row-class-name="tableRowClassName"
 
     >
-
 
       <el-table-column type="expand">
         <template slot-scope="props">
@@ -85,18 +71,6 @@
               <span>{{ props.row.ND }}</span>
             </el-form-item>
 
-            <!--            <el-form-item label="单位代码：">-->
-            <!--              <span>{{ props.row.CO_CODE }}</span>-->
-            <!--            </el-form-item>-->
-            <!--            <el-form-item label="单位名称：">-->
-            <!--              <span>{{ props.row.CO_NAME }}</span>-->
-            <!--            </el-form-item>-->
-            <!--            <el-form-item label="账套代码：">-->
-            <!--              <span>{{ props.row.ACCOUNT_ID }}</span>-->
-            <!--            </el-form-item>-->
-            <!--            <el-form-item label="账套名称：">-->
-            <!--              <span>{{ props.row.ACCOUNT_NAME }}</span>-->
-            <!--            </el-form-item>-->
             <el-form-item label="科目代码：">
               <span>{{ props.row.ACC_CODE }}</span>
             </el-form-item>
@@ -104,14 +78,12 @@
               <span>{{ props.row.ACC_NAME }}</span>
             </el-form-item>
 
-
             <el-form-item label="期初余额借方：">
               <span>{{ props.row.QCYE_JF }}</span>
             </el-form-item>
             <el-form-item label="期初余额贷方：">
               <span>{{ props.row.QCYE_DF }}</span>
             </el-form-item>
-
 
             <el-form-item label="本期发生借方：">
               <span>{{ props.row.BQFS_JF }}</span>
@@ -137,120 +109,120 @@
         </template>
       </el-table-column>
 
-
-
-
       <el-table-column align="center" label="序号" width="50">
         <template slot-scope="scope">
           {{ scope.$index + 1 }}
         </template>
       </el-table-column>
 
-      <!--      <el-table-column label="年度" width="60" >-->
-      <!--        <template slot-scope="scope">-->
-      <!--          {{ scope.row.ND }}-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-
-      <!--      <el-table-column label="单位代码"  width="95">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          {{ scope.row.CO_CODE }}-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-
-      <!--      <el-table-column align="center" label="单位名称"  width="200" show-overflow-tooltip>-->
-      <!--        <template slot-scope="scope">-->
-      <!--          {{ scope.row.CO_NAME }}-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-
-      <!--      <el-table-column align="center" label="账套代码" width="50">-->
-      <!--        <template slot-scope="scope">-->
-      <!--          {{ scope.row.ACCOUNT_ID }}-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-
-      <!--      <el-table-column align="center" label="账套名称" width="200" show-overflow-tooltip>-->
-      <!--        <template slot-scope="scope">-->
-      <!--          {{ scope.row.ACCOUNT_NAME }}-->
-      <!--        </template>-->
-      <!--      </el-table-column>-->
-
-      <el-table-column align="left" label="科目代码" width="110" show-overflow-tooltip>
+      <el-table-column align="left" label="科目代码" width="130" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.ACC_CODE }}
         </template>
       </el-table-column>
 
-      <el-table-column align="center" label="科目名称" show-overflow-tooltip>
+      <el-table-column align="left" label="科目名称" show-overflow-tooltip>
         <template slot-scope="scope">
           {{ scope.row.ACC_NAME }}
         </template>
       </el-table-column>
 
 
-      <el-table-column align="center" label="期初余额">
-        <el-table-column align="center" label="借方" width="130">
+      <el-table-column align="center" label="期初余额" width=9%>
+        <el-table-column align="right" label="借方" >
           <template slot-scope="scope">
-            {{ scope.row.QCYE_JF }}
+            {{ Number(scope.row.QCYE_JF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="贷方" width="130">
+        <el-table-column align="right" label="贷方" >
           <template slot-scope="scope">
-            {{ scope.row.QCYE_DF }}
-          </template>
-        </el-table-column>
-      </el-table-column>
-
-      <el-table-column align="center" label="本期发生">
-        <el-table-column align="center" label="借方" width="130">
-          <template slot-scope="scope">
-            {{ scope.row.BQFS_JF }}
-          </template>
-        </el-table-column>
-
-
-        <el-table-column align="center" label="贷方" width="130">
-          <template slot-scope="scope">
-            {{ scope.row.BQFS_DF }}
+            {{ Number(scope.row.QCYE_DF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
           </template>
         </el-table-column>
       </el-table-column>
 
-      <el-table-column align="center" label="累计发生">
-        <el-table-column align="center" label="借方" width="130">
+      <el-table-column align="center" label="本期发生" width=9%>
+        <el-table-column align="right" label="借方" >
           <template slot-scope="scope">
-            {{ scope.row.LJFS_JF }}
+            {{ Number(scope.row.BQFS_JF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
           </template>
         </el-table-column>
 
-        <el-table-column align="center" label="贷方" width="130">
-          <template slot-scope="scope">
-            {{ scope.row.LJFS_DF }}
-          </template>
-        </el-table-column>
-      </el-table-column>
 
-      <el-table-column align="center" label="期末余额">
-        <el-table-column align="center" label="借方" width="130">
+        <el-table-column align="right" label="贷方" >
           <template slot-scope="scope">
-            {{ scope.row.QMYE_JF }}
-          </template>
-        </el-table-column>
-
-        <el-table-column align="center" label="贷方" width="130">
-          <template slot-scope="scope">
-            {{ scope.row.QMYE_DF }}
+            {{ Number(scope.row.BQFS_DF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
           </template>
         </el-table-column>
       </el-table-column>
 
+      <el-table-column align="center" label="累计发生" width=9%>
+        <el-table-column align="right" label="借方" >
+          <template slot-scope="scope">
+            {{ Number(scope.row.LJFS_JF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
+          </template>
+        </el-table-column>
 
+        <el-table-column align="right" label="贷方" >
+          <template slot-scope="scope">
+            {{ Number(scope.row.LJFS_DF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
+          </template>
+        </el-table-column>
+      </el-table-column>
 
+      <el-table-column align="center" label="期末余额" width=9%>
+        <el-table-column align="right" label="借方" >
+          <template slot-scope="scope">
+            {{ Number(scope.row.QMYE_JF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
+          </template>
+        </el-table-column>
 
+        <el-table-column align="right" label="贷方" >
+          <template slot-scope="scope">
+            {{ Number(scope.row.QMYE_DF)
+            .toFixed(2)
+            .toString()
+            .replace(/(\d{1,3})(?=(\d{3})+(?:$|\.))/g, "$1,")
+            }}
+          </template>
+        </el-table-column>
+      </el-table-column>
 
     </el-table>
+
+
+    <el-button @click="cx" style="float: right;position: fixed;width: 100px;right:50px" type="primary" icon="el-icon-search" class="filter-item" >重算</el-button>
+
+
   </div>
 </template>
 
@@ -268,7 +240,7 @@ export default {
       list: [],
       sel_zt: '',
       sel_nd: '',
-
+      tableWidth: 400,
       delivery: false,
 
 
@@ -312,16 +284,33 @@ export default {
 
     }
   },
-
   created() {
+    this.tableMaxHeight()
     // this.fetchData()
   },
   computed: {
     tableMaxHeight() {
-      return window.innerHeight - 200 + 'px';
+      this.tableWidth = window.innerHeight - 250 + 'px';
     }
   },
   methods: {
+
+    tableRowClassName ({row, rowIndex}) {
+      row.index = rowIndex;
+      return row.className
+    },
+
+    RowClick (row) {
+      this.getIndex=row.index
+      if (row.className === "#92cbf1"){
+        row.className === "";
+      } else {
+        row.className === "#92cbf1"
+      }
+    },
+
+
+
     change_nd(value){
       let obj = {};
 
@@ -349,7 +338,6 @@ export default {
       console.log('当前年度起始月名', obj.label);
       this.month_start = obj.value;
     },
-
     change_month_end(value){
       let obj = {};
       obj = this.monthOptions.find((item)=>{
@@ -375,11 +363,6 @@ export default {
         return;
       }
 
-      //if (this.dw == ''){
-      //  alert('请输入单位代码！');
-      //  return;
-      //}
-
       if (this.zt == ''){
         alert('请输入账套代码！');
         return;
@@ -395,20 +378,12 @@ export default {
         alert('请输选择结束月份！');
         return;
       }
-      // console.log(this.nd);
-      // console.log(this.dw);
-      // console.log(this.zt);
 
-      // 开始请求数据
-
-      //let api_Url = "/api"
       const vm = this;
 
       this.axios({
         method: 'GET',
         url: api_Url + '/InfoQuery/yehzb',
-
-
         params: {
           nd: this.sel_nd,
           dw: this.dw,
@@ -469,11 +444,21 @@ export default {
       })
 
     }
+  },
+  mounted(){
+    window.onresize = () => {
+      return(() => {
+        this.$nextTick(() => {
+          this.tableWidth = window.innerHeight - 250 + 'px';
+        })
+      })()
+    }
   }
 }
+
 </script>
 
-<style scoped>
+<style>
 
 
 /*表格展开行*/
@@ -490,5 +475,17 @@ export default {
   width: 100%;
 }
 
+/* 选中某行时的背景色*/
+.el-table__body tr.current-row > td {
+   background-color: #92cbf1 !important;
+}
+
+/*鼠标移入某行时的背景色*/
+.el-table--enable-row-hover .el-table__body tr:hover > td {
+   background-color: #92cbf1;
+}
+.el-table .cell.el-tooltip {
+  white-space: pre-wrap;
+}
 
 </style>
