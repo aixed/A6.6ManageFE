@@ -1,7 +1,7 @@
 
 const tokens = {
   admin: {
-    token: 'admin-token'
+    token: 'aixed-token'
   },
   editor: {
     token: 'editor-token'
@@ -9,24 +9,25 @@ const tokens = {
 }
 
 const users = {
-  'admin-token': {
+  'aixed-token': {
     roles: ['admin'],
     introduction: 'I am a super administrator',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
-    name: 'Super Admin'
+    avatar: 'http://10.11.0.37:5211/file/assets/header.jpg',
+    name: '超级管理员'
   },
   'editor-token': {
     roles: ['editor'],
     introduction: 'I am an editor',
-    avatar: 'https://wpimg.wallstcn.com/f778738c-e4f8-4870-b634-56703b4acafe.gif',
+    avatar: 'http://10.11.0.37:5211/file/assets/header.jpg',
     name: 'Normal Editor'
   }
 }
 
+
 module.exports = [
   // user login
   {
-    url: '/vue-admin-template/user/login',
+    url: '/api/user/login',
     type: 'post',
     response: config => {
       const { username } = config.body
@@ -36,7 +37,7 @@ module.exports = [
       if (!token) {
         return {
           code: 60204,
-          message: 'Account and password are incorrect.'
+          message: '账号或密码不正确'
         }
       }
 
@@ -49,7 +50,7 @@ module.exports = [
 
   // get user info
   {
-    url: '/vue-admin-template/user/info\.*',
+    url: '/api/user/info\.*',
     type: 'get',
     response: config => {
       const { token } = config.query
@@ -72,7 +73,7 @@ module.exports = [
 
   // user logout
   {
-    url: '/vue-admin-template/user/logout',
+    url: '/api/user/logout',
     type: 'post',
     response: _ => {
       return {

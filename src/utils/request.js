@@ -3,7 +3,10 @@ import { MessageBox, Message } from 'element-ui'
 import store from '@/store'
 import { getToken } from '@/utils/auth'
 
+
+
 // create an axios instance
+// 创建一个请求实例
 const service = axios.create({
   baseURL: process.env.VUE_APP_BASE_API, // url = base url + request url
   // withCredentials: true, // send cookies when cross-domain requests
@@ -19,6 +22,8 @@ service.interceptors.request.use(
       // let each request carry token
       // ['X-Token'] is a custom headers key
       // please modify it according to the actual situation
+      // 如果有 AiXed-Token 的话 就在 请求头 headers 上增加一个X-Token
+      // 这样通过后端代码就可以获取到Token
       config.headers['X-Token'] = getToken()
     }
     return config

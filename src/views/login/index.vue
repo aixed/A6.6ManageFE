@@ -3,7 +3,7 @@
     <el-form ref="loginForm" :model="loginForm" :rules="loginRules" class="login-form" auto-complete="on" label-position="left">
 
       <div class="title-container">
-        <h3 class="title">Login Form</h3>
+        <h3 class="title">A++ 运维管理平台</h3>
       </div>
 
       <el-form-item prop="username">
@@ -41,41 +41,41 @@
         </span>
       </el-form-item>
 
-      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">Login</el-button>
+      <el-button :loading="loading" type="primary" style="width:100%;margin-bottom:30px;" @click.native.prevent="handleLogin">登 录</el-button>
 
       <div class="tips">
-        <span style="margin-right:20px;">username: admin</span>
-        <span> password: any</span>
+        <span style="margin-right:20px;">用户名: admin</span>
+        <span> 密码: 123456</span>
       </div>
 
     </el-form>
   </div>
 </template>
 
-<script>
-import { validUsername } from '@/utils/validate'
+<script src="../../js/axios.min.js"></script>
 
+<script>
 export default {
   name: 'Login',
   data() {
     const validateUsername = (rule, value, callback) => {
-      if (!validUsername(value)) {
-        callback(new Error('Please enter the correct user name'))
+      if (value.length < 2) {
+        callback(new Error('账号长度错误'))
       } else {
         callback()
       }
     }
     const validatePassword = (rule, value, callback) => {
       if (value.length < 6) {
-        callback(new Error('The password can not be less than 6 digits'))
+        callback(new Error('密码不能少于6位'))
       } else {
         callback()
       }
     }
     return {
       loginForm: {
-        username: 'admin',
-        password: '111111'
+        username: '',
+        password: ''
       },
       loginRules: {
         username: [{ required: true, trigger: 'blur', validator: validateUsername }],
@@ -106,17 +106,31 @@ export default {
       })
     },
     handleLogin() {
+
+          this.loading = true
+
+
+
+
+      // 此处 this.$store.dispatch 是使用了 vuex 技术
       this.$refs.loginForm.validate(valid => {
         if (valid) {
-          this.loading = true
-          this.$store.dispatch('user/login', this.loginForm).then(() => {
-            this.$router.push({ path: this.redirect || '/' })
-            this.loading = false
-          }).catch(() => {
-            this.loading = false
-          })
+
+          this.$store.dispatch('user/login', this.loginForm)
+            // .then(() => {
+            .then(res => {
+              console.log("返回数据:",res);
+
+              this.$router.push({ path: this.redirect || '/' })
+              this.loading = false
+            })
+            .catch(res => {
+              console.log("执行错误",res);
+              this.loading = false
+            })
+
         } else {
-          console.log('error submit!!')
+          console.log('error submit!!');
           return false
         }
       })
@@ -127,7 +141,7 @@ export default {
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/PanJiaChen/vue-element-admin/pull/927 */
+/* Detail see https://github.com/Snlie/A6.6ManagerFE/pull/927 */
 
 $bg:#283443;
 $light_gray:#fff;
@@ -141,6 +155,10 @@ $cursor: #fff;
 
 /* reset element-ui css */
 .login-container {
+  background: url(../../assets/index_bg/bg.jpg) no-repeat 0px 0px;
+  background-repeat: no-repeat;
+  background-size: 100% 100%;
+
   .el-input {
     display: inline-block;
     height: 47px;
@@ -173,7 +191,7 @@ $cursor: #fff;
 </style>
 
 <style lang="scss" scoped>
-$bg:#2d3a4b;
+$bg: #759eef;
 $dark_gray:#889aa4;
 $light_gray:#eee;
 

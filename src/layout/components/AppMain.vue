@@ -1,7 +1,11 @@
 <template>
   <section class="app-main">
     <transition name="fade-transform" mode="out-in">
+<!--      新增-->
+      <keep-alive :include="cachedViews">
       <router-view :key="key" />
+<!--        新增-->
+      </keep-alive>
     </transition>
   </section>
 </template>
@@ -10,6 +14,9 @@
 export default {
   name: 'AppMain',
   computed: {
+    cachedViews(){
+      return this.$store.state.tagsView.cachedViews
+    },
     key() {
       return this.$route.path
     }
@@ -29,6 +36,7 @@ export default {
   padding-top: 50px;
 }
 </style>
+
 
 <style lang="scss">
 // fix css style bug in open el-dialog
