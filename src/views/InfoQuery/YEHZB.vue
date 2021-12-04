@@ -1,20 +1,10 @@
 <template>
   <div class="app-container">
+
     <b style="margin-left: 0px;">年 度：</b>
-    <el-input
-      type="number"
-      v-model="nd"
-      class="dis_arrow"
-      style="width: 240px;"
-      placeholder="年度,可使用鼠标滚轮调整"
-      min="2014"
-      max="2022"
-      onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode || event.which))) || event.which === 8"
-      oninput="if (value > 2022) value = 2022;"
-      onblur="if(value.length!=4) this.focus();"
-      onkeyup="if(value.length=4) this.blur();"
-    >
-    </el-input>
+      <el-select @change='change_nd' id="select_nd" v-model="nd" placeholder="选择年" >
+        <el-option v-for="item in ndOptions" :key="item.key" :label="item.label" :value="item.value" />
+      </el-select>
 
 
     <b style="margin-left: 10px;">单位代码：</b>
@@ -30,21 +20,28 @@
 
     />
 
-    <b style="margin-left: 10px;">账套代码：</b>
-    <el-input
-      @mousewheel.native.prevent
-      type="number"
-      class="dis_arrow"
-      v-model="zt"
-      style="width: 200px;"
-      placeholder="输入账套代码"
-      onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode || event.which))) || event.which === 8"
-      min="0"
-      max="901"
-      oninput="if (value > 901) value = 901"
-      onblur="if(value.length!=3) this.focus();"
-      onkeyup="if(value.length=3) this.blur();"
-    />
+<!--    <b style="margin-left: 10px;">账套代码：</b>-->
+<!--    <el-input-->
+<!--      @mousewheel.native.prevent-->
+<!--      type="number"-->
+<!--      class="dis_arrow"-->
+<!--      v-model="zt"-->
+<!--      style="width: 200px;"-->
+<!--      placeholder="输入账套代码"-->
+<!--      onKeypress="return (/[\d]/.test(String.fromCharCode(event.keyCode || event.which))) || event.which === 8"-->
+<!--      min="0"-->
+<!--      max="901"-->
+<!--      oninput="if (value > 901) value = 901"-->
+<!--      onblur="if(value.length!=3) this.focus();"-->
+<!--      onkeyup="if(value.length=3) this.blur();"-->
+<!--    />-->
+
+    <b style="margin-left: 50px;">账 套：</b>
+      <el-select @change='change_account_id' id="select_account_id" v-model="zt" placeholder="可选 选择账套" >
+        <el-option v-for="item in ztOptions" :key="item.label" :label="item.label" :value="item.value" />
+      </el-select>
+
+
 
     <b style="margin-left: 50px;">起始月份：</b>
     <el-select @change='change_month_start' id="select_month_start" v-model="month_start" placeholder="选择月份" >
@@ -258,7 +255,7 @@
 </template>
 
 <script>
-
+import api_Url from "@/httpConfig/api";
 export default {
 
   data() {
@@ -269,12 +266,35 @@ export default {
       month_start: '',
       month_end: '',
       list: [],
-
+      sel_zt: '',
+      sel_nd: '',
 
       delivery: false,
 
 
       listLoading: false,
+      ndOptions: [
+        {key:'1',   label: '2019年', value: '2019' },
+        {key:'2',   label: '2020年', value: '2020' },
+        {key:'3',   label: '2021年', value: '2021' },
+        {key:'4',   label: '2022年', value: '2022' }
+      ],
+      ztOptions: [
+        { label: '110 企业职工基本养老保险', value: '110' },
+        { label: '111 企业养老保险', value: '111' },
+        { label: '116 职业年金', value: '116' },
+        { label: '117 公务员医疗补助', value: '117' },
+        { label: '120 机关事业单位养老保险', value: '120' },
+        { label: '150 城乡居民养老险', value: '150' },
+        { label: '340 居民医疗保险(社保）', value: '340' },
+        { label: '341 城镇居民基本医疗保险科目体系（医疗）', value: '341' },
+        { label: '400 职工医疗保险（社保）', value: '400' },
+        { label: '401 职工基本医疗保险', value: '401' },
+        { label: '700 生育保险', value: '700' },
+        { label: '800 工伤保险', value: '800' },
+        { label: '900 失业保险', value: '900' },
+        { label: '901 职业技能提升', value: '901' }
+      ],
       monthOptions: [
         { label: '1月', value: '1' },
         { label: '2月', value: '2' },
@@ -302,6 +322,23 @@ export default {
     }
   },
   methods: {
+    change_nd(value){
+      let obj = {};
+
+      //这里的 ndOptions 就是上面遍历的数据源
+      obj = this.ndOptions.find((item)=>{
+        //筛选出匹配数据
+        return item.value === value;
+      });
+      console.log('选择年度key值', obj.key);
+      console.log('当前选择年度值', obj.value);
+      console.log('当前年度标签名', obj.label);
+      this.sel_nd = obj.value;
+
+    },
+    change_account_id(value){
+      this.sel_zt= value;
+    },
     change_month_start(value){
       let obj = {};
       obj = this.monthOptions.find((item)=>{
@@ -326,8 +363,15 @@ export default {
 
     cx(){
 
-      if (this.nd == ''){
-        alert('请输入年度！');
+      if(this.sel_nd == ''){
+        console.log('开始查询,当前年度未选择！');
+        alert('请选择年度！');
+        return;
+      }
+
+      if(this.sel_zt == ''){
+        console.log('开始查询,当前账套未选择！');
+        alert('请选择账套！');
         return;
       }
 
@@ -357,16 +401,18 @@ export default {
 
       // 开始请求数据
 
-      let api_Url = "http://10.11.0.37:5209/api"
+      //let api_Url = "/api"
       const vm = this;
 
       this.axios({
         method: 'GET',
         url: api_Url + '/InfoQuery/yehzb',
+
+
         params: {
-          nd: this.nd,
+          nd: this.sel_nd,
           dw: this.dw,
-          zt: this.zt,
+          zt: this.sel_zt,
           month_start: this.month_start,
           month_end: this.month_end,
           delivery: this.delivery,
@@ -390,10 +436,9 @@ export default {
       const vm = this;
       vm.listLoading = true
 
-      let api_Url = "http://10.11.0.37:5209/api"
       this.axios({
         method: 'GET',
-        url: api_Url + '/InfoQuery/yehzb',
+        url: vm.addr = api_Url + '/InfoQuery/yehzb',
         params: {
           nd: this.nd,
           dw: this.dw,
@@ -414,7 +459,12 @@ export default {
         }
       }).catch(function(error){
         vm.listLoading = false
-        vm.$message.error('接口调用错误!');
+        vm.$message(
+          {
+            dangerouslyUseHTMLString: true,
+            message: '接口调用错误!' +'<br/>' + vm.addr,
+            type:'error'
+          });
         console.log("执行错误",error);
       })
 

@@ -81,7 +81,7 @@
 </template>
 
 <script>
-
+import api_Url from "@/httpConfig/api";
 export default {
 
   data() {
@@ -93,7 +93,8 @@ export default {
 
       list: [],
 
-      listLoading: false
+      listLoading: false,
+
     }
   },
 
@@ -121,12 +122,12 @@ export default {
 
       // 开始请求数据
 
-      let api_Url = "http://10.11.0.37:5209/api"
+
       const vm = this;
       vm.listLoading = true
       this.axios({
         method: 'GET',
-        url: api_Url + '/InfoQuery/OnlineStatistics',
+        url: vm.addr = api_Url + '/InfoQuery/OnlineStatistics',
         params: this.form,
 
       }).then(function (res){
@@ -142,8 +143,16 @@ export default {
           vm.list = res.data;
         }
       }).catch(function(error){
+
         vm.listLoading = false
-        vm.$message.error('接口调用错误!');
+
+        vm.$message(
+          {
+            dangerouslyUseHTMLString: true,
+            message: '接口调用错误!' +'<br/>' + vm.addr,
+            type:'error'
+          });
+
         console.log("执行错误",error);
       })
 

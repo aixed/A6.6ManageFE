@@ -121,7 +121,7 @@
 </template>
 
 <script>
-
+import api_Url from "@/httpConfig/api";
 
 export default {
 
@@ -173,14 +173,14 @@ export default {
 
       // 开始请求数据
 
-      let api_Url = "http://10.11.0.37:5209/api"
+
       const vm = this;
 
       vm.listLoading = true
 
         this.axios({
           method: 'GET',
-          url: api_Url + '/InfoQuery/dzqbk_ztfl',
+          url: vm.addr = api_Url + '/InfoQuery/dzqbk_ztfl',
           params: {
             nd: this.nd,
             dw: this.dw,
@@ -198,7 +198,12 @@ export default {
           }
         }).catch(function(error){
           vm.listLoading = false
-          vm.$message.error('接口调用错误!');
+          vm.$message(
+          {
+            dangerouslyUseHTMLString: true,
+            message: '接口调用错误!' +'<br/>' + vm.addr,
+            type:'error'
+          });
           console.log("执行错误",error);
         })
 

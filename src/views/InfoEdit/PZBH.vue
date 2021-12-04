@@ -215,9 +215,7 @@
 </template>
 
 <script>
-
-
-
+import api_Url from "@/httpConfig/api";
 export default {
 
   data() {
@@ -327,12 +325,12 @@ export default {
       console.log('开始查询,当前提交单位：',this.dw);
 
       //  这里开始 axios 请求
-      let api_Url = "http://10.11.0.37:5209/api"
+
       const vm = this;
       vm.listLoading = true
         this.axios({
           method: 'GET',
-          url: api_Url + '/InfoQuery/pzbh',
+          url: vm.addr = api_Url + '/InfoQuery/pzbh',
           params: {
             nd: this.sel_nd,
             yf: this.sel_month,
@@ -409,7 +407,12 @@ export default {
 
         }).catch(function(error){
           vm.listLoading = false
-          vm.$message.error('接口调用错误!');
+          vm.$message(
+          {
+            dangerouslyUseHTMLString: true,
+            message: '接口调用错误!' +'<br/>' + url,
+            type:'error'
+          });
           console.log("执行错误",error);
         })
 

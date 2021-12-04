@@ -55,6 +55,7 @@
 <script src="../../js/axios.min.js"></script>
 
 <script>
+import api_Url from "@/httpConfig/api";
 export default {
   name: 'Login',
   data() {

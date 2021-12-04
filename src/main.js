@@ -17,6 +17,8 @@ import router from './router'
 
 import '@/icons' // icon
 import '@/permission' // permission control
+import api from '@/httpConfig/api'
+Vue.prototype.api = api
 
 Vue.use(VueAxios, axios)
 
