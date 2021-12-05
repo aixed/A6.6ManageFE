@@ -57,10 +57,8 @@
       :height=tableWidth
       :header-cell-style="{color: '#000000', fontSize: '14px', 'text-align':'center'}"
       style="font-size: 15px; color: #000000; "
-
       @row-click="RowClick"
       :row-class-name="tableRowClassName"
-
     >
 
       <el-table-column type="expand">
@@ -460,7 +458,6 @@ export default {
 
 <style>
 
-
 /*表格展开行*/
 .yehzb-table-expand {
   font-size: 0;
@@ -484,6 +481,7 @@ export default {
 .el-table--enable-row-hover .el-table__body tr:hover > td {
    background-color: #92cbf1;
 }
+/*保留空格*/
 .el-table .cell.el-tooltip {
   white-space: pre-wrap;
 }

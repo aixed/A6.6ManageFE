@@ -25,7 +25,7 @@ export default {
   data() {
     return {
       title: 'A++ 运维管理平台',
-      logo: 'http://10.11.0.37:5211/file/assets/Logo.jpg'
+      logo: 'Logo.jpg'
     }
   }
 }

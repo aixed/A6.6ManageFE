@@ -12,13 +12,13 @@ const users = {
   'aixed-token': {
     roles: ['admin'],
     introduction: 'I am a super administrator',
-    avatar: 'http://10.11.0.37:5211/file/assets/header.jpg',
+    avatar: 'Logo.jpg',
     name: '超级管理员'
   },
   'editor-token': {
     roles: ['editor'],
     introduction: 'I am an editor',
-    avatar: 'http://10.11.0.37:5211/file/assets/header.jpg',
+    avatar: 'Logo.jpg',
     name: 'Normal Editor'
   }
 }

@@ -142,7 +142,7 @@ export default {
 
 <style lang="scss">
 /* 修复input 背景不协调 和光标变色 */
-/* Detail see https://github.com/Snlie/A6.6ManagerFE/pull/927 */
+
 
 $bg:#283443;
 $light_gray:#fff;

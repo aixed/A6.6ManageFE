@@ -57,14 +57,12 @@ export const constantRoutes = [
   },
 
   {
-    // example
-    // Example
     path: '/InfoQuery',
     component: Layout,
     alwaysShow: true,
     redirect: '/InfoQuery/',
     name: 'InfoQuery',
-    meta: { title: '信息查询', icon: 'el-icon-search' },
+    meta: { title: '常用功能', icon: 'el-icon-search' },
     children: [
       {
         path: 'OnlineStatistics',
@@ -144,14 +142,13 @@ export const constantRoutes = [
 
 
   {
-    // example
-    // Example
+
     path: '/InfoEdit',
     component: Layout,
     alwaysShow: true,
     redirect: '/InfoEdit/',
     name: 'InfoEdit',
-    meta: { title: '信息修改', icon: 'edit' },
+    meta: { title: '凭证查询', icon: 'edit' },
     children: [
       {
         path: 'PZBH',
@@ -172,82 +169,66 @@ export const constantRoutes = [
         path: 'index',
         name: 'Form',
         component: () => import('@/views/form/index'),
-        meta: { title: '信息填报', icon: 'form' }
+        meta: { title: '信息填报', icon: 'form' },
+        hidden: true,
       }
     ]
   },
 
-  // {
-  //   path: '/nested',
-  //   component: Layout,
-  //   redirect: '/nested/menu1',
-  //   name: 'Nested',
-  //   meta: {
-  //     title: 'Nested',
-  //     icon: 'nested'
-  //   },
-  //   children: [
-  //     {
-  //       path: 'menu1',
-  //       component: () => import('@/views/nested/menu1/index'), // Parent router-view
-  //       name: 'Menu1',
-  //       meta: { title: 'Menu1' },
-  //       children: [
-  //         {
-  //           path: 'menu1-1',
-  //           component: () => import('@/views/nested/menu1/menu1-1'),
-  //           name: 'Menu1-1',
-  //           meta: { title: 'Menu1-1' }
-  //         },
-  //         {
-  //           path: 'menu1-2',
-  //           component: () => import('@/views/nested/menu1/menu1-2'),
-  //           name: 'Menu1-2',
-  //           meta: { title: 'Menu1-2' },
-  //           children: [
-  //             {
-  //               path: 'menu1-2-1',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-1'),
-  //               name: 'Menu1-2-1',
-  //               meta: { title: 'Menu1-2-1' }
-  //             },
-  //             {
-  //               path: 'menu1-2-2',
-  //               component: () => import('@/views/nested/menu1/menu1-2/menu1-2-2'),
-  //               name: 'Menu1-2-2',
-  //               meta: { title: 'Menu1-2-2' }
-  //             }
-  //           ]
-  //         },
-  //         {
-  //           path: 'menu1-3',
-  //           component: () => import('@/views/nested/menu1/menu1-3'),
-  //           name: 'Menu1-3',
-  //           meta: { title: 'Menu1-3' }
-  //         }
-  //       ]
-  //     },
-  //     {
-  //       path: 'menu2',
-  //       component: () => import('@/views/nested/menu2/index'),
-  //       name: 'Menu2',
-  //       meta: { title: 'menu2' }
-  //     }
-  //   ]
-  // },
+  {
+    path: '/ReportQuery',
+    component: Layout,
+    alwaysShow: true,
+    redirect: '/ReportQuery/',
+    name: 'ReportQuery',
+    meta: { title: '报表查询', icon: 'table' },
+    children: [
+      {
+        path: 'MonthlyReport',
+        name: '月报',
+        component: () => import('@/views/ReportQuery/MonthlyReport'),
+        meta: { title: '月报', icon: 'documentation' }
+      },
+      {
+        path: 'MonthlyReportDetail/MonthlyReportDetail_InExSt',
+        name: '收支表',
+        component: () => import('@/views/ReportQuery/MonthlyReportDetail/MonthlyReportDetail_InExSt'),
+        meta: { title: '收支表', icon: 'documentation' },
+        hidden: true,
+      },
+      {
+        path: 'MonthlyReportDetail/MonthlyReportDetail_ZB_St',
+        name: '指标（报表）',
+        component: () => import('@/views/ReportQuery/MonthlyReportDetail/MonthlyReportDetail_ZB_St'),
+        meta: { title: '指标（报表）', icon: 'documentation' },
+        hidden: true,
+      },
+      {
+        path: 'MonthlyReportDetail/MonthlyReportDetail_Local_Z',
+        name: '指标（本地帐）',
+        component: () => import('@/views/ReportQuery/MonthlyReportDetail/MonthlyReportDetail_Local_Z'),
+        meta: { title: '指标（本地帐）', icon: 'documentation' },
+        hidden: true,
+      },
+      {
+        path: 'QuarterlyReport',
+        name: '季报',
+        component: () => import('@/views/ReportQuery/QuarterlyReport'),
+        meta: { title: '季报', icon: 'documentation'}
+      },
 
-  // {
-  //   path: 'external-link',
-  //   component: Layout,
-  //   children: [
-  //     {
-  //       path: 'https://Snlie.github.io/A6.6ManagerFE/#/',
-  //       meta: { title: 'External Link', icon: 'link' }
-  //     }
-  //   ]
-  // },
+      {
+        path: 'AnnualReport',
+        name: '年报',
+        component: () => import('@/views/ReportQuery/AnnualReport'),
+        meta: { title: '年报', icon: 'documentation' }
+      },
 
-  // 404 page must be placed at the end !!!
+    ]
+  },
+
+
+
   { path: '*', redirect: '/404', hidden: true }
 ]
 
@@ -259,7 +240,6 @@ const createRouter = () => new Router({
 
 const router = createRouter()
 
-// Detail see: https://github.com/vuejs/vue-router/issues/1234#issuecomment-357941465
 export function resetRouter() {
   const newRouter = createRouter()
   router.matcher = newRouter.matcher // reset router
